@@ -1,14 +1,15 @@
 package com.restapi.survey;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
+
+import com.restapi.util.Utils;
 
 @Service
 public class SurveyService {
@@ -39,14 +40,9 @@ public class SurveyService {
 	}
 
 	public static Survey getSurveyById(String id) {
-//		for (Survey survey:surveys) {
-//			if(survey.getId().equals(id)) return survey;
-//		}
-//		List<Survey> surveyResult = surveys.stream().filter(s -> s.getId().equals(id)).collect(Collectors.toList());
-//		if (surveyResult.size() > 0) return surveyResult.get(0);
 		Predicate<? super Survey> pred = s -> s.getId().equalsIgnoreCase(id);
-		Optional<Survey> findFirst = surveys.stream().filter(pred).findFirst();
-		return findFirst.isPresent() ? findFirst.get() : null;
+		Optional<Survey> optionalQuestion = surveys.stream().filter(pred).findFirst();
+		return optionalQuestion.isPresent() ? optionalQuestion.get() : null;
 	}
 
 	public static List<Question> getSurveyQuestions(String id) {
@@ -58,10 +54,21 @@ public class SurveyService {
 
 	public static Question getSurveyQuestionById(String surveyId, String questionId) {
 		Survey survey = getSurveyById(surveyId);
-		if (survey == null || survey.getQuestions() == null);
+		System.out.println("getSurveyQuestionById survey: " + survey);
+		if (survey == null || survey.getQuestions() == null)
+			return null;
 		Predicate<? super Question> pred = s -> s.getId().equalsIgnoreCase(questionId);
-		Optional<Question> findFirst = survey.getQuestions().stream().filter(pred).findFirst();
-		return findFirst.isPresent() ? findFirst.get() : null;
+		Optional<Question> optionalQuestion = survey.getQuestions().stream().filter(pred).findFirst();
+		return optionalQuestion.isPresent() ? optionalQuestion.get() : null;
+	}
+
+	public static short addSurveyQuestion(String id, Question question) {
+		List<Question> surveyQuestions = getSurveyQuestions(id);
+		if (surveyQuestions == null) return 400;
+		question.setId(Utils.genarateRandomNumber32().toString());
+		surveyQuestions.add(question);
+		return 201;
+		
 	}
 
 }
