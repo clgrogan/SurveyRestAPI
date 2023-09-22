@@ -21,7 +21,4 @@ public class HelloBean {
 	public String toString() {
 		return "HelloBean [message=" + message + "]";
 	}
-	
-	
-
 }

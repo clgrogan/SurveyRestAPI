@@ -12,7 +12,6 @@ public class Survey {
 	}
 
 	public Survey(String id, String title, String description, List<Question> questions) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;

@@ -2,6 +2,8 @@ package com.restapi.survey;
 
 import java.util.List;
 
+import com.restapi.util.Utils;
+
 public class Question {
 	private String id;
 	private String description;
@@ -9,12 +11,10 @@ public class Question {
 	private String correctAnswer;
 
 	public Question() {
-		super();
 	}
 
-	public Question(String id, String description, List<String> options, String correctAnswer) {
-		super();
-		this.id = id;
+	public Question(String description, List<String> options, String correctAnswer) {
+		this.id = Utils.genarateRandomNumber32().toString();
 		this.description = description;
 		this.options = options;
 		this.correctAnswer = correctAnswer;
