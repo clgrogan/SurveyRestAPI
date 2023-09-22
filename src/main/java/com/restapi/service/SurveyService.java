@@ -1,4 +1,4 @@
-package com.restapi.survey;
+package com.restapi.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 
 import org.springframework.stereotype.Service;
 
+import com.restapi.survey.Question;
+import com.restapi.survey.Survey;
 import com.restapi.util.Utils;
 
 @Service

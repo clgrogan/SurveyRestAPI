@@ -2,6 +2,7 @@ package com.restapi.controller;
 
 import java.util.List;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.restapi.survey.Question;
 import com.restapi.survey.Survey;
-import com.restapi.survey.SurveyService;
+import com.restapi.service.SurveyService;
 
 @RestController
 public class SurveyResource {
