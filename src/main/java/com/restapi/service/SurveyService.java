@@ -54,9 +54,8 @@ public class SurveyService {
 		return survey.getQuestions();
 	}
 
-	public static Question getSurveyQuestionById(String surveyId, String questionId) {
+	public Question getSurveyQuestionById(String surveyId, String questionId) {
 		Survey survey = getSurveyById(surveyId);
-		System.out.println("getSurveyQuestionById survey: " + survey);
 		if (survey == null || survey.getQuestions() == null)
 			return null;
 		Optional<Question> optionalQuestion = survey.getQuestions().stream().filter(questionPredicate(questionId))
@@ -82,8 +81,8 @@ public class SurveyService {
 		return questions.removeIf(questionPredicate(questionId));
 	}
 	public static boolean updateSurveyQuestion(String surveyId, Question updatedQuestion) {
-
-		Question question = getSurveyQuestionById(surveyId, updatedQuestion.getId());
+		SurveyService ss = new SurveyService();
+		Question question = ss.getSurveyQuestionById(surveyId, updatedQuestion.getId());
 		if (question == null)
 			return false;
 		question.setDescription(updatedQuestion.getDescription());

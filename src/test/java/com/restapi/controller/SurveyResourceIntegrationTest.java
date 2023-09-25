@@ -188,7 +188,7 @@ public class SurveyResourceIntegrationTest {
 
 		assertEquals(APPLICATION_JSON, responseEntity.getHeaders().get("Content-Type").get(0));
 		
-		JSONAssert.assertEquals(newQuestionRequestBody, responseEntity.getBody(), false);
+		JSONAssert.assertEquals(expectedSurvey1QuestionPost, responseEntity.getBody(), false);
 		
 		// A side effect occurs with the creation of the new question.
 	}

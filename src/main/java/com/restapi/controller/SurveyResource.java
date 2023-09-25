@@ -2,7 +2,7 @@ package com.restapi.controller;
 
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +20,8 @@ import com.restapi.service.SurveyService;
 
 @RestController
 public class SurveyResource {
+	@Autowired
+	SurveyService surveyService;
 
 	// /surveys
 	@GetMapping("/surveys")
@@ -53,7 +55,7 @@ public class SurveyResource {
 	}
 	@GetMapping("/surveys/{id}/questions/{questionId}")
 	public Question getSurveyQuestion(@PathVariable String id, @PathVariable String questionId) {
-		Question question = SurveyService.getSurveyQuestionById(id, questionId);
+		Question question = surveyService.getSurveyQuestionById(id, questionId);
 		if (question == null)
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		return question;
