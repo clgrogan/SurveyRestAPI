@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.restapi.survey.Survey;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SurveyResourceIntegrationTest {
@@ -186,5 +189,7 @@ public class SurveyResourceIntegrationTest {
 		assertEquals(APPLICATION_JSON, responseEntity.getHeaders().get("Content-Type").get(0));
 		
 		JSONAssert.assertEquals(newQuestionRequestBody, responseEntity.getBody(), false);
+		
+		// A side effect occurs with the creation of the new question.
 	}
 }
