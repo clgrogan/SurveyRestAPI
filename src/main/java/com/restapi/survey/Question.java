@@ -13,6 +13,14 @@ public class Question {
 	public Question() {
 	}
 
+	public Question(String id, String description, List<String> options, String correctAnswer) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.options = options;
+		this.correctAnswer = correctAnswer;
+	}
+
 	public Question(String description, List<String> options, String correctAnswer) {
 		this.id = Utils.genarateRandomNumber32().toString();
 		this.description = description;

@@ -17,14 +17,16 @@ public class SurveyService {
 	private static List<Survey> surveys = new ArrayList<>();
 
 	static {
-		Question question1 = new Question("Most Popular Cloud Platform Today",
+		Question question1 = new Question("Question1","Most Popular Cloud Platform Today",
 				Arrays.asList("AWS", "Azure", "Google Cloud", "Oracle Cloud"), "AWS");
-		Question question2 = new Question("Fastest Growing Cloud Platform",
+		Question question2 = new Question("Question2","Fastest Growing Cloud Platform",
 				Arrays.asList("AWS", "Azure", "Google Cloud", "Oracle Cloud"), "Google Cloud");
-		Question question3 = new Question("Most Popular DevOps Tool",
+		Question question3 = new Question("Question3","Most Popular DevOps Tool",
 				Arrays.asList("Kubernetes", "Docker", "Terraform", "Azure DevOps"), "Kubernetes");
+		Question question4 = new Question("Question4","Most Popular Cloud Platform Today",
+				Arrays.asList("AWS", "Azure", "Google Cloud", "Oracle Cloud"), "AWS");
 
-		List<Question> questions = new ArrayList<>(Arrays.asList(question1, question2, question3));
+		List<Question> questions = new ArrayList<>(Arrays.asList(question1, question2, question3, question4));
 
 		Survey survey = new Survey("Survey1", "My Favorite Survey", "Description of the Survey", questions);
 
