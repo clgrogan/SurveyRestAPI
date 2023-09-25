@@ -10,10 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SurveyResourceIntegrationTest {
+
+	private static final String APPLICATION_JSON = "application/json";
 
 	private static final String SPECIFIC_QUESTION_URL = "/surveys/Survey1/questions/Question4";
 
@@ -36,6 +42,19 @@ public class SurveyResourceIntegrationTest {
 			  "correctAnswer": "AWS"
 			}
 							""";
+	private String expectedSurvey1QuestionPost = """
+			{
+			    "description": "Some Other Cloud Platform",
+			    "options": [
+			        "Kubernetes",
+			        "Docker",
+			        "Terraform",
+			        "Azure DevOps"
+			    ],
+			    "correctAnswer": "Kubernetes"
+			}
+
+						""";
 
 	private String expectedSurvey1AllQuestions = """
 						[
@@ -97,7 +116,7 @@ public class SurveyResourceIntegrationTest {
 
 		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
 
-		assertEquals("application/json", responseEntity.getHeaders().get("Content-Type").get(0));
+		assertEquals(APPLICATION_JSON, responseEntity.getHeaders().get("Content-Type").get(0));
 
 		JSONAssert.assertEquals(expectedSurvey1Question1, responseEntity.getBody(), true);
 	}
@@ -109,7 +128,7 @@ public class SurveyResourceIntegrationTest {
 
 		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
 
-		assertEquals("application/json", responseEntity.getHeaders().get("Content-Type").get(0));
+		assertEquals(APPLICATION_JSON, responseEntity.getHeaders().get("Content-Type").get(0));
 
 		JSONAssert.assertEquals(expectedSurvey1AllQuestions, responseEntity.getBody(), false);
 	}
@@ -121,7 +140,7 @@ public class SurveyResourceIntegrationTest {
 
 		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
 
-		assertEquals("application/json", responseEntity.getHeaders().get("Content-Type").get(0));
+		assertEquals(APPLICATION_JSON, responseEntity.getHeaders().get("Content-Type").get(0));
 
 		JSONAssert.assertEquals(expectedSurvey1, responseEntity.getBody(), false);
 	}
@@ -133,8 +152,39 @@ public class SurveyResourceIntegrationTest {
 
 		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
 
-		assertEquals("application/json", responseEntity.getHeaders().get("Content-Type").get(0));
+		assertEquals(APPLICATION_JSON, responseEntity.getHeaders().get("Content-Type").get(0));
 
 		JSONAssert.assertEquals(expectedAllSurveys, responseEntity.getBody(), false);
+	}
+
+	@Test
+	void postSurveyQuestion_basicScenario() throws JSONException {
+
+		String newQuestionRequestBody = """
+				{
+				    "description": "Some Other Cloud Platform",
+				    "options": [
+				        "Kubernetes",
+				        "Docker",
+				        "Terraform",
+				        "Azure DevOps"
+				    ],
+				    "correctAnswer": "Kubernetes"
+				}
+
+								""";
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", APPLICATION_JSON);
+		
+		HttpEntity<String> httpEntity = new HttpEntity<String>(newQuestionRequestBody, headers);
+		
+		ResponseEntity<String> responseEntity = template.exchange(SURVEY1_ALL_QUESTIONS_URL, HttpMethod.POST,
+				httpEntity, String.class);
+		
+		assertTrue(responseEntity.getStatusCode().is2xxSuccessful());
+
+		assertEquals(APPLICATION_JSON, responseEntity.getHeaders().get("Content-Type").get(0));
+		
+		JSONAssert.assertEquals(newQuestionRequestBody, responseEntity.getBody(), false);
 	}
 }
